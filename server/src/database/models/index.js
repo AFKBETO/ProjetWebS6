@@ -26,14 +26,22 @@ db['User'].hasMany(db['Cart'], {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
-db['Cart'].belongsTo(db['User'])
+db['Cart'].belongsTo(db['User'], {
+    foreignKey: 'id_user',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
 
 db['Cart'].hasMany(db['CartItem'], {
     foreignKey: 'id_cart',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })
-db['CartItem'].belongsTo(db['Cart'])
+db['CartItem'].belongsTo(db['Cart'], {
+    foreignKey: 'id_user',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
 
 db['Book'].hasMany(db['CartItem'], {
     foreignKey: 'id_book',
@@ -44,7 +52,15 @@ db['Book'].hasMany(db['CartItem'], {
     },
     as: 'activeBorrow'
 })
-db['CartItem'].belongsTo(db['Book'])
+db['CartItem'].belongsTo(db['Book'], {
+    foreignKey: 'id_book',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    scope: {
+        status: true
+    },
+    as: 'activeBorrow'
+})
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
