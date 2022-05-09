@@ -1,18 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
     const Book = sequelize.define('Book', {
-        id: {
+        id_book: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
+        name_book: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        quantity: {
+        quantity_book: {
             type: DataTypes.INTEGER,
             validate: {
                 min: 0

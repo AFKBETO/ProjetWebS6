@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const Cart = sequelize.define('Cart', {
-        id: {
+        id_cart: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        active: {
+        status: {
             type: DataTypes.BOOLEAN,
             allowNull: false
         }
