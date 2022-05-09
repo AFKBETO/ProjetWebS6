@@ -23,7 +23,7 @@ User.findOrCreate({
 })
 
 User.findOrCreate({
-    where: {id_user: user.manager.id},
+    where: {id_user: user.student.id},
     defaults: user.student
 })
 User.update(user.admin, {

@@ -14,7 +14,7 @@ async function hashPassword(user, options) {
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         id_user: {
-            types: DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
@@ -36,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM,
             values: ['admin', 'student'],
             allowNull: false
+        }
+    }, {
+        hooks: {
+            beforeCreate: hashPassword,
+            beforeUpdate: hashPassword
         }
     })
 

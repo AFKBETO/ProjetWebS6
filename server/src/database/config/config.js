@@ -1,5 +1,5 @@
 module.exports = {
-    ports: process.env.PORT || 3001,
+    port: process.env.PORT || 3001,
     db: {
         database: process.env.DB_NAME || 's6_projet_web',
         user: process.env.DB_USER || 'root',
