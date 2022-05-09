@@ -1,6 +1,7 @@
 const { User } = require('../database/models')
 const jwt = require('jsonwebtoken')
 const config = require('../database/config/config')
+const bcrypt = require('bcrypt')
 const { errorHandler, errorType } = require('./ErrorHandler')
 
 function jwtSignUser(user) {
