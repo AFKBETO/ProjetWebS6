@@ -1,9 +1,4 @@
-import { Api, AUTH_TOKEN_KEY } from '@/services/Api'
-import axios from 'axios'
-
-function setBearer () {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage[AUTH_TOKEN_KEY]}`
-}
+import { Api, setBearer } from '@/services/Api'
 
 export function fetchBooks () {
   setBearer()

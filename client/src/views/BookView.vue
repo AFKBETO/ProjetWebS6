@@ -9,7 +9,8 @@
           :key="book.id_book"
           :name_book="book.name_book"
           :url="book.url"
-          :quantity_book="book.quantity_book" />
+          :quantity_book="book.quantity_book"
+          :borrowedQty="book.borrowedQty" />
       </div>
     </div>
   </div>

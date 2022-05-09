@@ -7,3 +7,7 @@ export function Api () {
 }
 
 export const AUTH_TOKEN_KEY = 'authToken'
+
+export function setBearer () {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage[AUTH_TOKEN_KEY]}`
+}
