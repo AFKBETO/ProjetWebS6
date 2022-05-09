@@ -18,23 +18,23 @@ const user = {
 }
 
 User.findOrCreate({
-    where: {id_user: user.admin.id},
+    where: {id_user: user.admin.id_user},
     defaults: user.admin
 })
 
 User.findOrCreate({
-    where: {id_user: user.student.id},
+    where: {id_user: user.student.id_user},
     defaults: user.student
 })
 User.update(user.admin, {
     where: {
-        id_user: user.admin.id
+        id_user: user.admin.id_user
     },
     individualHooks: true
 })
 User.update(user.student, {
     where: {
-        id_user: user.student.id
+        id_user: user.student.id_user
     },
     individualHooks: true
 })
