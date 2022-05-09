@@ -34,8 +34,7 @@ module.exports = {
                     })
                     break
             }
-        }
-        if (!error) {
+        } else {
             next()
         }
     }
