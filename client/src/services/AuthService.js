@@ -1,7 +1,5 @@
-import Api from '@/services/Api'
+import { Api, AUTH_TOKEN_KEY } from '@/services/Api'
 import decode from 'jwt-decode'
-
-const AUTH_TOKEN_KEY = 'authToken'
 
 export function register (credentials) {
   return Api().post('register', credentials)

@@ -13,7 +13,6 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: HomeView,
       meta: {
         allowAnonymous: false
@@ -21,7 +20,7 @@ const router = new Router({
       children: [
         {
           path: '/',
-          name: 'book',
+          name: 'books',
           component: BookView
         },
         {

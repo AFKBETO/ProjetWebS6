@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         status: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.ENUM,
+            values: ['pending', 'borrowed', 'returned'],
             allowNull: false
         }
     })

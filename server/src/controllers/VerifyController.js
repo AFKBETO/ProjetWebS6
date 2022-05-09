@@ -6,18 +6,18 @@ module.exports = {
   jwtVerifyUser (req, res, next) {
     try {
       const [type, token] = req.headers.authorization.split(' ')
-      if (type == "Bearer") {
+      if (type === "Bearer") {
         if (token) {
           const decoded = jwt.verify(token, config.authentication.jwtSecret)
-          res.id_user = decoded.id_user
-          res.profile = decoded.profile
+          req.id_user = decoded.id_user
+          req.profile = decoded.profile
           next()
         }
         if (!token) {
           throw errorType("NoToken","Token not found.")
         }
       }
-      if (type != "Bearer") {
+      if (type !== "Bearer") {
         throw errorType("WrongAuthType","Wrong authentication type")
       }
     } catch (err) {

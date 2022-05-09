@@ -1,4 +1,4 @@
-const { Book } = require('../database/models')
+const { Book, Cart, CartItem } = require('../database/models')
 const { errorHandler, errorType } = require('./ErrorHandler')
 
 module.exports = {
@@ -11,13 +11,7 @@ module.exports = {
       }
 
       req.id_book = bookId
-      const book = await Book.findByPk(bookId)
 
-      if (!book) {
-        throw errorType('BookNotFound', `Cannot find book with id ${bookId}`)
-      }
-
-      req.book = book
       next()
 
     } catch (err) {
@@ -30,7 +24,7 @@ module.exports = {
       const book = await Book.create({
         name_book: req.body.name_book,
         url: req.body.url,
-        quantity: req.body.quantity
+        quantity_book: req.body.quantity_book
       })
       res.status(200).send(book)
     } catch (err) {
@@ -40,32 +34,55 @@ module.exports = {
   async read (req, res) {
     try {
       const books = await Book.findAll()
-      res.status(200).send(books)
+      const results = []
+      for (let book of books) {
+        const result = {
+          id_book: book.id_book,
+          name_book: book.name_book,
+          url: book.url,
+          quantity_book: book.quantity_book
+        }
+        let sum = await Cart.sum('cartitems.quantity_cart', {
+          include: {
+            model: CartItem,
+            where: {
+              id_book: book.id_book
+            }
+          },
+          where: {
+            'status': 'borrowed'
+          }
+        })
+        console.log(book.id_book, sum)
+        result['borrowedQty'] = sum
+        results.push(result)
+      }
+      res.status(200).send(results)
     } catch (err) {
       errorHandler(res, err, 'Cannot fetch books')
     }
   },
   async update (req, res) {
+    console.log(req.body)
     try {
       const data = {
-        name_book: req.data.name_book,
-        url: req.data.url,
-        quantity: req.data.quantity
+        name_book: req.body.name_book,
+        url: req.body.url,
+        quantity_book: req.body.quantity_book
       }
       await Book.update(data, {
         where: {
           id_book: req.id_book
         }
       })
-      req.book.
       res.status(204).send()
     } catch (err) {
       errorHandler(res, err, 'Cannot edit book details')
     }
   },
-  async delete (req, res) {
+  async destroy (req, res) {
     try {
-      await Book.delete({
+      await Book.destroy({
         where: {
           id_book: req.id_book
         }

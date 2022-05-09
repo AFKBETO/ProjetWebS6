@@ -46,20 +46,12 @@ db['CartItem'].belongsTo(db['Cart'], {
 db['Book'].hasMany(db['CartItem'], {
     foreignKey: 'id_book',
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    scope: {
-        status: true
-    },
-    as: 'activeBorrow'
+    onUpdate: 'CASCADE'
 })
 db['CartItem'].belongsTo(db['Book'], {
     foreignKey: 'id_book',
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    scope: {
-        status: true
-    },
-    as: 'activeBorrow'
+    onUpdate: 'CASCADE'
 })
 
 db.sequelize = sequelize

@@ -50,7 +50,7 @@ module.exports = {
         profile: user.profile
       }
       res.status(200).send({
-        token: jwtSignUser(userdata.toJSON())
+        token: jwtSignUser(userdata)
       })
     }
     catch (err) {
