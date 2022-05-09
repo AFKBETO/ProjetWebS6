@@ -8,7 +8,7 @@
           class="form-control"
           placeholder="Enter display name"
           name="name"
-          v-model="registerDetails.name"
+          v-model="registerDetails.username"
           required>
         <label for="name">Name</label>
       </div>
@@ -66,7 +66,7 @@ export default {
   data () {
     return {
       registerDetails: {
-        name: '',
+        username: '',
         email: '',
         password: ''
       },
@@ -119,7 +119,7 @@ export default {
   },
   computed: {
     errorForm () {
-      return !this.registerDetails.name ||
+      return !this.registerDetails.username ||
         !this.registerDetails.email ||
         !this.registerDetails.password ||
         !this.repeatPassword ||
