@@ -1,22 +1,37 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import axios from 'axios'
+const Home = window.httpVueLoader('./src/components/Home.vue')
+const Panier = window.httpVueLoader('./src/components/Panier.vue')
+const AddArticle= window.httpVueLoader('./src/components/AddArticle.vue')
+const Login = window.httpVueLoader('./src/components/Login.vue')
 
-Vue.config.productionTip = false
+const routes = [
+  { path: '/', component: Home, name: 'home' },
+  { path: '/panier', component: Panier, name: 'panier' },
+  {path: '/login', component: Login, name: 'login'}
+]
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
+const router = new VueRouter({
+  routes
+})
+
+var app = new Vue({
   router,
-  components: { App },
-  template: '<App/>',
+  el: '#app',
+  data: {
+    articles: [],
+    panier: {
+      createdAt: null,
+      updatedAt: null,
+      articles: []
+    },
+    payMessage:'',
+    user: undefined,
+    invaliddata: false
+
+  },
   async mounted () {
-    const res = await axios.get('/api/book')
+    const res = await axios.get('/api/articles')
     this.articles = res.data
-    const res2 = await axios.get('/api/cart')
+    const res2 = await axios.get('/api/panier')
     this.panier = res2.data
   },
   methods: {
@@ -65,6 +80,6 @@ new Vue({
           alert('Informations non valides !')
           this.invaliddata = true
       });
-    }
+  },
   }
 })
