@@ -4,13 +4,13 @@ const { errorHandler, errorType } = require('./ErrorHandler')
 module.exports = {
   async parseBook(req, res, next) {
     try {
-      const bookId = parseInt(req.params.id_book)
+      const idBook = parseInt(req.params.id_book)
 
-      if (isNaN(bookId)) {
-        throw errorType('ParseInt error', 'id_book must be a number')
+      if (isNaN(idBook)) {
+        throw new Error('id_book must be a number')
       }
 
-      req.id_book = bookId
+      req.id_book = idBook
 
       next()
 
@@ -26,7 +26,7 @@ module.exports = {
         url: req.body.url,
         quantity_book: req.body.quantity_book
       })
-      res.status(200).send(book)
+      res.status(201).send(book)
     } catch (err) {
       errorHandler(res, err, 'Cannot create book')
     }
