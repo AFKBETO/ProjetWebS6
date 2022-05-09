@@ -42,7 +42,7 @@
 </template>
 
 <script>
-module.exports = {
+export default {
   props: {
     articles: { type: Array, default: [] },
     panier: { type: Object },

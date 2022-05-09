@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
+        url: {
+            type: DataTypes.STRING
+        },
         quantity_book: {
             type: DataTypes.INTEGER,
             validate: {

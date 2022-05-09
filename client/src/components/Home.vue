@@ -33,9 +33,11 @@
 </template>
 
 <script>
-module.exports = {
+import AddArticle from '@/components/AddArticle.vue'
+
+export default {
   props: {
-    articles: { type: Array, default: [] },
+    articles: { type: Array },
     panier: { type: Object }
   },
   data () {

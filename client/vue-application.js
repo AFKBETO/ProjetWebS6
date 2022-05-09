@@ -1,7 +1,7 @@
-const Home = window.httpVueLoader('./components/Home.vue')
-const Panier = window.httpVueLoader('./components/Panier.vue')
-const AddArticle= window.httpVueLoader('./components/addArticle.vue')
-const Login = window.httpVueLoader('./components/Login.vue')
+const Home = window.httpVueLoader('./src/components/Home.vue')
+const Panier = window.httpVueLoader('./src/components/Panier.vue')
+const AddArticle= window.httpVueLoader('./src/components/AddArticle.vue')
+const Login = window.httpVueLoader('./src/components/Login.vue')
 
 const routes = [
   { path: '/', component: Home, name: 'home' },
