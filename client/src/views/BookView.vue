@@ -4,7 +4,7 @@
     <div class="container-sm">
       <div class="row row-cols-4 g-2">
         <BookComponent
-          class="col border"
+          class="col border p-0"
           v-for="book in books"
           :key="book.id_book"
           :name_book="book.name_book"
