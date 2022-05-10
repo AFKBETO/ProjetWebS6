@@ -34,10 +34,17 @@ module.exports = {
   async read (req, res) {
     try {
       const carts = Cart.findAll({
+        include: {
+          model: CartItem,
+          where: {
+            id_cart: '$Carts.id_cart$'
+          }
+        },
         where: {
           id_user: req.id_user
         }
       })
+      res.status(200).send(carts)
     } catch (err) {
       errorHandler(res, err, 'Cannot fetch carts')
     }
