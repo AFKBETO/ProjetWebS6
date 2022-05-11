@@ -17,7 +17,7 @@
                 <li class="nav-item">
                   <router-link
                     class="nav-link border text-light p-2"
-                    :class="activeClass('another')" to="/another">Another</router-link>
+                    :class="activeClass('cart')" to="/cart">Cart</router-link>
                 </li>
               </ul>
             </div>
