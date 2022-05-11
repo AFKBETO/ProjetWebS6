@@ -19,7 +19,10 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      const [cart] = Cart.findOrCreate({
+      const cart = await Cart.findOrCreate({
+        include: {
+          model: CartItem
+        },
         where: {
           id_user: req.id_user,
           status: 'pending'
@@ -33,12 +36,10 @@ module.exports = {
   },
   async read (req, res) {
     try {
-      const carts = Cart.findAll({
+      console.log(req.id_user)
+      const carts = await Cart.findAll({
         include: {
-          model: CartItem,
-          where: {
-            id_cart: '$Carts.id_cart$'
-          }
+          model: CartItem
         },
         where: {
           id_user: req.id_user

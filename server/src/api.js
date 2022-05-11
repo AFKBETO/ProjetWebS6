@@ -4,6 +4,7 @@ const AC = require('./controllers/AuthController')
 const AP = require('./policies/AuthPolicies')
 const VC = require('./controllers/VerifyController')
 const BC = require('./controllers/BookController')
+const CC = require('./controllers/CartController')
 
 router
     .post('/register', AP.register, AC.register)
@@ -14,4 +15,8 @@ router
     .post('/books', VC.jwtVerifyUser, VC.adminChecker, BC.create)
     .put('/books/:id_book', VC.jwtVerifyUser, VC.adminChecker, BC.parseBook, BC.update)
     .delete('/books/:id_book', VC.jwtVerifyUser, VC.adminChecker, BC.parseBook, BC.destroy)
+
+router
+    .get('/carts', VC.jwtVerifyUser, CC.read)
+    .put('/carts', VC.jwtVerifyUser, CC.create)
 module.exports = router
