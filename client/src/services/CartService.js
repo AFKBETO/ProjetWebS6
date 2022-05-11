@@ -10,7 +10,7 @@ export function getCurrentCart () {
   return Api().put('carts')
 }
 
-/*
-export function addToCart (idBook) {
+export function changeInCart (idBook, increment) {
   setBearer()
-} */
+  return Api().post(`carts/books/${idBook}`, {increment: increment})
+}

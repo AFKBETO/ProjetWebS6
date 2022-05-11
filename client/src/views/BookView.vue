@@ -21,12 +21,14 @@
           class="col border p-0"
           v-for="(book, index) in books"
           :key="index"
+          :id_book="book.id_book"
           :name_book="book.name_book"
           :url="book.url"
           :quantity_book="book.quantity_book"
           :borrowedQty="book.borrowedQty"
           :quantity_cart="book.quantity_borrowed"
-          v-show="book.name_book.includes(searchBox)" />
+          v-show="book.name_book.includes(searchBox)"
+          @cart-change="cartChange" />
       </div>
     </div>
   </div>
@@ -66,7 +68,7 @@ export default {
       }
     }
     response = await getCurrentCart()
-    const cart = response.data[0]
+    const cart = response.data
     if (cart) {
       const cartItems = cart.CartItems
       if (cartItems) {
@@ -77,6 +79,21 @@ export default {
       }
     }
     this.loaded = true
+  },
+  methods: {
+    cartChange (itemData) {
+      console.log(itemData)
+      const { idBook, cartItem } = itemData
+      console.log(idBook)
+      if (cartItem) {
+        this.cart[idBook] = cartItem
+        this.books[idBook].quantity_borrowed = cartItem.quantity_cart
+      } else {
+        delete this.cart[idBook]
+        this.books[idBook].quantity_borrowed = 0
+      }
+      this.$forceUpdate()
+    }
   },
   computed: {
     searchFilter () {

@@ -4,16 +4,31 @@ import decode from 'jwt-decode'
 export function register (credentials) {
   return Api().post('register', credentials)
 }
+
 export function login (credentials) {
   return Api().post('login', credentials)
 }
+
 export function logout () {
   clearAuthToken()
 }
+
 export function setAuthToken (token) {
   Api().defaults.headers.common['Authorization'] = `Bearer ${token}`
   localStorage.setItem(AUTH_TOKEN_KEY, token)
 }
+
+export function isAdmin () {
+  const authToken = getAuthToken()
+  if (authToken) {
+    const data = decode(authToken)
+    if (data.profile === 'admin') {
+      return true
+    }
+  }
+  return false
+}
+
 export function getAuthToken () {
   return localStorage.getItem(AUTH_TOKEN_KEY)
 }
@@ -21,6 +36,7 @@ export function clearAuthToken () {
   Api().defaults.headers.common['Authorization'] = ''
   localStorage.removeItem(AUTH_TOKEN_KEY)
 }
+
 export function isLoggedIn () {
   const authToken = getAuthToken()
   if (authToken) {
@@ -33,6 +49,7 @@ export function isLoggedIn () {
   }
   return !(!authToken) && !isTokenExpired(authToken)
 }
+
 export function getUserInfo () {
   if (isLoggedIn()) {
     return decode(getAuthToken())
