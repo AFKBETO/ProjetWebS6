@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block-offcanvas">
-      <div class="offcanvas offcanvas-start bg-secondary" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas offcanvas-start bg-secondary" tabindex="-1" id="navbaroffcanvas" aria-labelledby="navbaroffcanvasLabel">
         <div class="offcanvas-header">
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-secondary btn-offcanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="btn btn-secondary btn-offcanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbaroffcanvas" aria-controls="navbaroffcanvas">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
         </svg>
@@ -42,7 +42,7 @@
             <li class="nav-item">
               <router-link
                 class="nav-link border text-light p-2"
-                :class="activeClass('another')" to="/another">Another</router-link>
+                :class="activeClass('cart')" to="/cart">Cart</router-link>
             </li>
           </ul>
         </div>

@@ -2,15 +2,17 @@
   <div class="books">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">Book catalogue</div>
+      <div class="tool-tip">
+        <button class="btn btn-close" @click.prevent="openDelete"></button>
+        <span class="tooltiptext">Delete books</span>
+      </div>
       <div class="p-1">
         <div class="input-group">
           <div class="p-0">
             <input type="search" class="form-control" placeholder="Search" v-model="searchBox" />
           </div>
           <span class="btn btn-secondary input-group-text">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
+            <i class="bi bi-search" />
           </span>
         </div>
       </div>
@@ -20,6 +22,7 @@
         <BookComponent
           class="col border p-0"
           v-for="(book, index) in books"
+          :id="book.id_book"
           :key="index"
           :id_book="book.id_book"
           :name_book="book.name_book"
@@ -27,11 +30,33 @@
           :quantity_book="book.quantity_book"
           :borrowedQty="book.borrowedQty"
           :quantity_cart="book.quantity_cart"
+          :canDelete="canDelete"
           v-show="book.name_book.includes(searchBox)"
-          @cart-change="cartChange" />
+          @cart-change="cartChange"
+          @delete-book="deleteBook" />
       </div>
     </div>
-    <BookForm v-show="isAdmin" @add-book="addBook" />
+    <div class="container-sm p-5 my-5 justify-content-center" v-show="isAdmin">
+      <div class="offcanvas offcanvas-end" id="demo">
+        <div class="offcanvas-header">
+          <h1 class="offcanvas-title">Add new book</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+          <BookForm @add-book="addBook" />
+        </div>
+      </div>
+      <button
+        class="btn btn-admin m-0 p-1 btn-info text-light"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#demo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle p-0" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -52,7 +77,8 @@ export default {
       books: {},
       cart: {},
       searchBox: '',
-      loaded: false
+      loaded: false,
+      canDelete: false
     }
   },
   watch: {
@@ -85,7 +111,7 @@ export default {
     this.loaded = true
   },
   methods: {
-    cartChange (itemData) {
+    cartChange: function (itemData) {
       const { idBook, cartItem } = itemData
       if (cartItem) {
         this.cart[idBook] = cartItem
@@ -96,10 +122,19 @@ export default {
       }
       this.$forceUpdate()
     },
-    addBook (bookData) {
+    addBook: function (bookData) {
       this.books[bookData.id_book] = bookData
       this.books[bookData.id_book]['borrowedQty'] = 0
       this.books[bookData.id_book]['quantity_cart'] = 0
+      this.$forceUpdate()
+    },
+    deleteBook: async function (idBook) {
+      delete this.books[idBook]
+      delete this.cart[idBook]
+      this.$forceUpdate()
+    },
+    openDelete: function () {
+      this.canDelete = !this.canDelete
     }
   },
   computed: {
@@ -112,3 +147,38 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.btn-admin {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  border-radius: 50%;
+}
+
+/* Tooltip container */
+.tool-tip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tool-tip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: lightgray;
+  color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tool-tip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>

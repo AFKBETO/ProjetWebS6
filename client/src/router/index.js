@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginService from '../components/LoginService.vue'
 import RegisterService from '../components/RegisterService.vue'
 import BookView from '../views/BookView.vue'
-import AnotherView from '../views/AnotherView.vue'
+import CartView from '../views/CartView.vue'
 import { isLoggedIn } from '../services/AuthService.js'
 
 Vue.use(Router)
@@ -24,9 +24,9 @@ const router = new Router({
           component: BookView
         },
         {
-          path: '/another',
-          name: 'another',
-          component: AnotherView
+          path: '/cart',
+          name: 'cart',
+          component: CartView
         }
       ]
     },
