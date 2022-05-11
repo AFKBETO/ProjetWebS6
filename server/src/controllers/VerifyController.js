@@ -6,7 +6,7 @@ module.exports = {
   jwtVerifyUser (req, res, next) {
     try {
       const [type, token] = req.headers.authorization.split(' ')
-      if (type === "Bearer") {
+      if (type === 'Bearer') {
         if (token) {
           const decoded = jwt.verify(token, config.authentication.jwtSecret)
           req.id_user = decoded.id_user
@@ -14,14 +14,14 @@ module.exports = {
           next()
         }
         if (!token) {
-          throw errorType("NoToken","Token not found.")
+          throw errorType('NoToken','Token not found.')
         }
       }
-      if (type !== "Bearer") {
-        throw errorType("WrongAuthType","Wrong authentication type")
+      if (type !== 'Bearer') {
+        throw errorType('WrongAuthType','Wrong authentication type')
       }
     } catch (err) {
-      errorHandler(res, err, "User verification error")
+      errorHandler(res, err, 'User verification error')
     }
   },
   adminChecker (req, res, next) {

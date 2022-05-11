@@ -12,6 +12,13 @@ module.exports = {
 
       req.id_book = idBook
 
+      const book = await Book.findByPk(idBook)
+      if (!book) {
+        throw errorType('BookNotFound', 'Cannot find book')
+      }
+
+      req.book = book
+
       next()
 
     } catch (err) {
@@ -42,7 +49,7 @@ module.exports = {
           url: book.url,
           quantity_book: book.quantity_book
         }
-        let sum = await Cart.sum('cartitems.quantity_cart', {
+        const sum = await Cart.sum('cartitems.quantity_cart', {
           include: {
             model: CartItem,
             where: {
@@ -53,7 +60,6 @@ module.exports = {
             'status': 'borrowed'
           }
         })
-        console.log(book.id_book, sum)
         result['borrowedQty'] = sum
         results.push(result)
       }

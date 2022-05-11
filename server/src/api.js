@@ -7,16 +7,32 @@ const BC = require('./controllers/BookController')
 const CC = require('./controllers/CartController')
 
 router
-    .post('/register', AP.register, AC.register)
-    .post('/login', AC.login)
+  .post('/register', AP.register, AC.register)
+  .post('/login', AC.login)
 
 router
-    .get('/books', VC.jwtVerifyUser, BC.read)
-    .post('/books', VC.jwtVerifyUser, VC.adminChecker, BC.create)
-    .put('/books/:id_book', VC.jwtVerifyUser, VC.adminChecker, BC.parseBook, BC.update)
-    .delete('/books/:id_book', VC.jwtVerifyUser, VC.adminChecker, BC.parseBook, BC.destroy)
+  .get('/books', VC.jwtVerifyUser, BC.read)
+  .post('/books', VC.jwtVerifyUser, VC.adminChecker, BC.create)
+  .put('/books/:id_book',
+    VC.jwtVerifyUser,
+    VC.adminChecker,
+    BC.parseBook,
+    BC.update
+  )
+  .delete('/books/:id_book',
+    VC.jwtVerifyUser,
+    VC.adminChecker,
+    BC.parseBook,
+    BC.destroy
+  )
 
 router
-    .get('/carts', VC.jwtVerifyUser, CC.read)
-    .put('/carts', VC.jwtVerifyUser, CC.create)
+  .get('/carts', VC.jwtVerifyUser, CC.read)
+  .put('/carts', VC.jwtVerifyUser, CC.getPendingCart, CC.create)
+  .post('/carts/books/:id_book',
+    VC.jwtVerifyUser,
+    CC.getPendingCart,
+    BC.parseBook,
+    CC.changeCartItem
+  )
 module.exports = router

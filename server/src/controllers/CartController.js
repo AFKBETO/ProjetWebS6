@@ -1,4 +1,4 @@
-const { User, Book, Cart, CartItem } = require('../database/models')
+const { User, Book, Cart, CartItem, sequelize } = require('../database/models')
 const { errorHandler, errorType } = require('./ErrorHandler')
 
 module.exports = {
@@ -17,9 +17,9 @@ module.exports = {
       errorHandler(res, err, 'Cannot parse cart id')
     }
   },
-  async create (req, res) {
+  async getPendingCart (req, res, next) {
     try {
-      const cart = await Cart.findOrCreate({
+      const [cart, create] = await Cart.findOrCreate({
         include: {
           model: CartItem
         },
@@ -28,8 +28,16 @@ module.exports = {
           status: 'pending'
         }
       })
-
-      res.status(201).send(cart)
+      
+      req.cart = cart
+      next()
+    } catch (err) {
+      errorHandler(res, err, 'Cannot get pending cart')
+    }
+  },
+  async create (req, res, next) {
+    try {
+      res.status(201).send(req.cart)
     } catch (err) {
       errorHandler(res, err, 'Cannot create new cart')
     }
@@ -48,6 +56,53 @@ module.exports = {
       res.status(200).send(carts)
     } catch (err) {
       errorHandler(res, err, 'Cannot fetch carts')
+    }
+  },
+  async changeCartItem (req, res) {
+    try {
+      const sum = await Cart.sum('cartitems.quantity_cart', {
+        include: {
+          model: CartItem,
+          where: {
+            id_book: req.id_book
+          }
+        },
+        where: {
+          'status': 'borrowed'
+        }
+      })
+      const [cartItem, create] = await CartItem.findOrCreate({
+        where: {
+          id_cart: req.cart.id_cart,
+          id_book: req.id_book
+        },
+        defaults: {
+          quantity_cart: 0
+        }
+      })
+      if (req.body.increment) {
+        if (req.book.quantity_book - sum - cartItem.quantity_cart > 0) {
+          cartItem.quantity_cart += 1
+          await cartItem.save()
+        }
+      } else {
+        cartItem.quantity_cart -= 1
+        await cartItem.save()
+        if (cartItem.quantity_cart <= 0) {
+          await cartItem.destroy()
+          res.status(200).send({
+            idBook: cartItem.id_book,
+            cartItem: null
+          })
+          return
+        }
+      }
+      res.status(200).send({
+        idBook: cartItem.id_book,
+        cartItem: cartItem
+      })
+    } catch (err) {
+      errorHandler(res, err, 'Cannot add item to cart')
     }
   }
 }
