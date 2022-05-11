@@ -20,7 +20,7 @@
         </div>
         <div>
           <button
-            class="btn btn-info py-1 m-0"
+            class="btn btn-info py-1 me-0"
             :disabled="!(remaining - quantity_cart)"
             @click.prevent="addToCart">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
@@ -29,7 +29,7 @@
             </svg>
           </button>
           <button
-            class="btn btn-secondary py-1 m-0"
+            class="btn btn-secondary py-1 ms-0"
             :disabled="!(quantity_cart)"
             @click.prevent="subtractFromCart">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-dash" viewBox="0 0 16 16">

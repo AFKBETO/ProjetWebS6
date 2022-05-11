@@ -26,22 +26,26 @@
           :url="book.url"
           :quantity_book="book.quantity_book"
           :borrowedQty="book.borrowedQty"
-          :quantity_cart="book.quantity_borrowed"
+          :quantity_cart="book.quantity_cart"
           v-show="book.name_book.includes(searchBox)"
           @cart-change="cartChange" />
       </div>
     </div>
+    <BookForm v-show="isAdmin" @add-book="addBook" />
   </div>
 </template>
 
 <script>
 import { fetchBooks } from '@/services/BookService.js'
 import { getCurrentCart } from '@/services/CartService.js'
+import { isAdmin } from '@/services/AuthService.js'
 import BookComponent from '@/components/BookComponent.vue'
+import BookForm from '@/components/BookForm.vue'
 
 export default {
   components: {
-    BookComponent
+    BookComponent,
+    BookForm
   },
   data () {
     return {
@@ -64,7 +68,7 @@ export default {
     if (books) {
       for (const book of books) {
         this.books[book.id_book] = book
-        this.books[book.id_book]['quantity_borrowed'] = 0
+        this.books[book.id_book]['quantity_cart'] = 0
       }
     }
     response = await getCurrentCart()
@@ -74,7 +78,7 @@ export default {
       if (cartItems) {
         for (const cartItem of cartItems) {
           this.cart[cartItem.id_book] = cartItem
-          this.books[cartItem.id_book].quantity_borrowed = cartItem.quantity_cart
+          this.books[cartItem.id_book].quantity_cart = cartItem.quantity_cart
         }
       }
     }
@@ -82,22 +86,28 @@ export default {
   },
   methods: {
     cartChange (itemData) {
-      console.log(itemData)
       const { idBook, cartItem } = itemData
-      console.log(idBook)
       if (cartItem) {
         this.cart[idBook] = cartItem
-        this.books[idBook].quantity_borrowed = cartItem.quantity_cart
+        this.books[idBook].quantity_cart = cartItem.quantity_cart
       } else {
         delete this.cart[idBook]
-        this.books[idBook].quantity_borrowed = 0
+        this.books[idBook].quantity_cart = 0
       }
       this.$forceUpdate()
+    },
+    addBook (bookData) {
+      this.books[bookData.id_book] = bookData
+      this.books[bookData.id_book]['borrowedQty'] = 0
+      this.books[bookData.id_book]['quantity_cart'] = 0
     }
   },
   computed: {
     searchFilter () {
       return this.searchBox
+    },
+    isAdmin () {
+      return isAdmin()
     }
   }
 }
