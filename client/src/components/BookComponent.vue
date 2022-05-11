@@ -13,8 +13,11 @@
     </div>
     <div class="footer p-2">
       <div class="card-text d-flex align-content-center justify-content-between">
-        <div class="py-0 px-1"><strong>Qty: </strong><small>{{remaining}}</small></div>
-        <button class="btn btn-info py-0">Add</button>
+        <div class="p-1">
+          <strong>Qty: </strong>
+          <small>{{remaining}}</small>
+        </div>
+        <button class="btn btn-info py-1" :disabled="!(remaining)">Add <span class="badge bg-secondary">{{quantity_cart}}</span></button>
       </div>
     </div>
   </div>
@@ -22,16 +25,17 @@
 
 <script>
 export default {
+  name: 'BookComponent',
   props: {
     name_book: String,
     url: String,
     quantity_book: Number,
     borrowedQty: Number,
-    quantity_cart: {type: Number, default: 0}
+    quantity_cart: Number
   },
   computed: {
     remaining () {
-      return this.quantity_book - this.borrowedQty - this.quantity_cart
+      return this.quantity_book - this.borrowedQty
     }
   }
 }
