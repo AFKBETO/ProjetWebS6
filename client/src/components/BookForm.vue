@@ -2,7 +2,7 @@
   <div class="container-sm p-5 my-5 justify-content-center">
     <div class="offcanvas offcanvas-end" id="demo">
       <div class="offcanvas-header">
-        <h1 class="offcanvas-title">Add new Book</h1>
+        <h1 class="offcanvas-title">Add new book</h1>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
       </div>
       <div class="offcanvas-body">

@@ -1,8 +1,8 @@
 <template>
   <div class="book bookcomp card">
-    <div class="card-header bg-secondary text-light text-overflow text-nowrap p-1">
-      <div class="card-title p-0">
-        <div class="h6 p-0">{{name_book}}</div>
+    <div class="card-header bg-secondary text-dark text-overflow text-nowrap">
+      <div class="card-title m-0 p-0 text-center">
+        <div class="h6 p-0 m-0">{{name_book}}</div>
       </div>
     </div>
     <div class="card-body imageblock">
@@ -76,7 +76,6 @@ export default {
 
 <style>
 .text-overflow {
-  height: 15%;
   overflow: hidden;
   text-overflow: ellipsis;
 }

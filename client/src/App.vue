@@ -2,6 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-sm bg-dark nav-tabs min-vw-100">
       <div class="container-fluid">
+        <div class="offcanvas-displace text-dark">abcsddd</div>
         <router-link class="navbar-brand text-light" to="/">
           BiblioEFREI
         </router-link>
@@ -54,5 +55,15 @@ export default {
 </script>
 
 <style>
+.offcanvas-displace {
+  visibility: hidden;
+  width: 0%
+}
 
+@media screen and (max-width: 768px) {
+  .offcanvas-displace {
+    visibility: visible;
+    width: auto;
+  }
+}
 </style>
