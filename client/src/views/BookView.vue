@@ -2,7 +2,7 @@
   <div class="books">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">Book catalogue</div>
-      <div class="tool-tip">
+      <div class="tool-tip" v-show="isAdmin">
         <button class="btn btn-close" @click.prevent="openDelete"></button>
         <span class="tooltiptext">Delete books</span>
       </div>

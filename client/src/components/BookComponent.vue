@@ -72,8 +72,14 @@ export default {
       this.$emit('cart-change', itemData.data)
     },
     deleteBook: async function () {
-      await deleteBook(this.id_book)
-      this.$emit('delete-book', this.id_book)
+      try {
+        if (confirm('Do you want to delete this book? This action is irreversible.')) {
+          await deleteBook(this.id_book)
+          this.$emit('delete-book', this.id_book)
+        }
+      } catch (err) {
+        alert(err.message)
+      }
     }
   },
   computed: {
