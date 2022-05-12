@@ -35,6 +35,22 @@ router
     BC.parseBook,
     CC.changeCartItem
   )
+  .put('/carts/validate',
+    VC.jwtVerifyUser,
+    CC.getPendingCart,
+    CC.updateStatus
+  )
+  .put('/carts/:id_cart',
+    VC.jwtVerifyUser,
+    VC.adminChecker,
+    CC.parseCart,
+    CC.updateCartStatus
+  )
+  .delete('/carts',
+    VC.jwtVerifyUser,
+    CC.getPendingCart,
+    CC.deleteCart
+  )
   .delete('/carts/books/:id_book',
     VC.jwtVerifyUser,
     CC.getPendingCart,

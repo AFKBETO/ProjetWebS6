@@ -19,3 +19,18 @@ export function deleteCartItem (idBook) {
   setBearer()
   Api().delete(`carts/books/${idBook}`)
 }
+
+export function validateCart () {
+  setBearer()
+  Api().put(`carts/validate`)
+}
+
+export function deleteCart () {
+  setBearer()
+  Api().delete(`carts`)
+}
+
+export function changeStateCart (idCart, status) {
+  setBearer()
+  Api().put(`carts/${idCart}`, status)
+}

@@ -105,6 +105,46 @@ module.exports = {
       errorHandler(res, err, 'Cannot add item to cart')
     }
   },
+  async updateStatus (req, res) {
+    try {
+      await Cart.update({
+        status: 'borrowed'
+      }, {
+        where: {
+          id_cart: req.cart.id_cart
+        }
+      })
+      res.status(204).send()
+    } catch (err) {
+      errorHandler(res, err, 'Cannot update cart')
+    }
+  },
+  async updateCartStatus (req, res) {
+    try {
+      await Cart.update({
+        status: req.body.status
+      }, {
+        where: {
+          id_cart: req.id_cart
+        }
+      })
+      res.status(204).send()
+    } catch (err) {
+      errorHandler(res, err, 'Cannot update cart')
+    }
+  },
+  async deleteCart(req, res) {
+    try {
+      await Cart.destroy({
+        where: {
+          id_cart: req.cart.id_cart
+        }
+      })
+      res.status(204).send()
+    } catch (err) {
+      errorHandler(res, err, 'Cannot delete item from cart')
+    }
+  },
   async deleteCartItem(req, res) {
     try {
       await CartItem.destroy({

@@ -2,6 +2,29 @@
   <div class="cart container-fluid">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">Your cart</div>
+      <div class="text-center pt-2" v-show="Object.keys(cart).length">
+        <div class="tool-tip">
+          <button
+            type="button"
+            class="btn btn-info px-5"
+            @click.prevent="validateCart">
+            <i class="bi bi-cart-check-fill"></i>
+          </button>
+          <span class="tooltiptext">Validate your cart</span>
+        </div>
+        <div class="tool-tip">
+          <button
+            type="button"
+            class="btn btn-danger px-5"
+            @click.prevent="deleteCart">
+            <i class="bi bi-cart-x-fill"></i>
+          </button>
+          <span class="tooltiptext">Empty your cart</span>
+        </div>
+      </div>
+    </div>
+    <div class="h3 fst-italic mt-5" v-show="!Object.keys(cart).length">
+      Wow, so empty! You can try borrowing some books by checking out our <a href="/" >catalogue</a>.
     </div>
     <CartItem
       v-for="(item, index) of cart"
@@ -17,7 +40,7 @@
 
 <script>
 import { fetchBooks } from '@/services/BookService.js'
-import { getCurrentCart } from '@/services/CartService.js'
+import { getCurrentCart, validateCart, deleteCart } from '@/services/CartService.js'
 import CartItem from '../components/CartItem.vue'
 
 export default {
@@ -71,11 +94,47 @@ export default {
         delete this.cart[idBook]
       }
       this.$forceUpdate()
+    },
+    validateCart: async function () {
+      try {
+        await validateCart()
+        this.cart = {}
+        alert('Thank you for renting our books!')
+      } catch (err) {
+        alert(err.message)
+      }
+    },
+    deleteCart: async function () {
+      try {
+        await deleteCart()
+        this.cart = {}
+      } catch (err) {
+        alert(err.message)
+      }
     }
   }
 }
 </script>
 
 <style>
-
+.tool-tip {
+  position: relative;
+  display: inline-block;
+}
+.tool-tip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: lightgray;
+  color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  left: 0px;
+  top: 100%;
+}
+.tool-tip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
