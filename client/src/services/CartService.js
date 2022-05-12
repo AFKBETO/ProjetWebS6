@@ -14,3 +14,8 @@ export function changeInCart (idBook, increment) {
   setBearer()
   return Api().post(`carts/books/${idBook}`, {increment: increment})
 }
+
+export function deleteCartItem (idBook) {
+  setBearer()
+  Api().delete(`carts/books/${idBook}`)
+}

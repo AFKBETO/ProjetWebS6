@@ -1,5 +1,5 @@
 <template>
-  <div class="container-md border cartitem mx-3 p-0 d-flex align-items-center">
+  <div class="container-md border border-dark cartitem my-1 p-0 d-flex align-items-center">
     <div class="container-fluid row d-flex align-items-center">
       <div class="text-center vh-16 col-2">
         <img
@@ -7,11 +7,23 @@
           class="image-thumb"
           :alt="name_book">
       </div>
-      <div class="col">
-        {{name_book}}
+      <div class="col d-flex flex-column text-center text-truncate">
+        <div>
+          <strong>Title</strong>
+        </div>
+        <div>
+          {{name_book}}
+        </div>
       </div>
-      <div class="col">Remaining: {{quantity_available}}</div>
-      <div class="col btn-group btn-group-sm">
+      <div class="col-2 d-flex flex-column text-center text-truncate">
+        <div>
+          <strong>Available</strong>
+        </div>
+        <div>
+          {{quantity_available}}
+        </div>
+      </div>
+      <div class="col p-5 btn-group btn-group-sm">
         <button
           type="button"
           class="btn btn-info"
@@ -19,7 +31,7 @@
           @click.prevent="addToCart">
           <i class="bi bi-cart-plus" />
         </button>
-        <span class="px-2 bg-dark text-light"><small>{{quantity_cart}}</small></span>
+        <span class="btn bg-dark text-light"><small>{{quantity_cart}}</small></span>
         <button
           type="button"
           class="btn btn-secondary"
@@ -28,12 +40,19 @@
           <i class="bi bi-cart-dash" />
         </button>
       </div>
+      <div class="col-1 me-2">
+        <button type="button"
+          class="btn btn-danger px-3">
+          <i class="bi bi-cart-x-fill"
+          @click.prevent="deleteCartItem"></i>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { changeInCart } from '@/services/CartService.js'
+import { changeInCart, deleteCartItem } from '@/services/CartService.js'
 
 export default {
   props: {
@@ -56,6 +75,13 @@ export default {
     subtractFromCart: async function () {
       const itemData = await changeInCart(this.id_book, false)
       this.$emit('cart-change', itemData.data)
+    },
+    deleteCartItem: async function () {
+      await deleteCartItem(this.id_book)
+      this.$emit('cart-change', {
+        idBook: this.id_book,
+        cartItem: null
+      })
     }
   }
 }
@@ -63,9 +89,14 @@ export default {
 
 <style>
 .image-thumb {
-  width: 10vh;
+  width: 9vh;
 }
 .cartitem {
-  height: 16vh
+  height: 17vh
+}
+@media screen and (max-width: 500px) {
+  .cartitem {
+    min-height: 40vh;
+  }
 }
 </style>
