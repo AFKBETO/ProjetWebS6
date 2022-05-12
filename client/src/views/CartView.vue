@@ -1,5 +1,5 @@
 <template>
-  <div class="cart">
+  <div class="cart container-fluid">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">Your cart</div>
     </div>

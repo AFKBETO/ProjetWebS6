@@ -20,23 +20,23 @@
     </div>
     <div class="footer p-2">
       <div class="card-text d-flex align-content-center justify-content-between">
-        <div class="p-1">
+        <div class="px-2">
           <strong>Qty: </strong>
           <small>{{remaining}}</small>
         </div>
         <div class="btn-group btn-group-sm">
           <button
             type="button"
-            class="btn btn-info"
-            :disabled="!(remaining - quantity_cart) || canDelete"
+            class="btn p-0 px-1 btn-info"
+            :disabled="((remaining - quantity_cart) < 1) || canDelete"
             @click.prevent="addToCart">
             <i class="bi bi-cart-plus" />
           </button>
-          <span class="px-2 bg-dark text-light"><small>{{quantity_cart}}</small></span>
+          <span class="btn bg-dark text-light"><small>{{quantity_cart}}</small></span>
           <button
             type="button"
-            class="btn btn-secondary"
-            :disabled="!(quantity_cart) || canDelete"
+            class="btn p-0 px-1 btn-secondary"
+            :disabled="(quantity_cart < 1) || canDelete"
             @click.prevent="subtractFromCart">
             <i class="bi bi-cart-dash" />
           </button>

@@ -155,14 +155,10 @@ export default {
   right: 5%;
   border-radius: 50%;
 }
-
-/* Tooltip container */
 .tool-tip {
   position: relative;
   display: inline-block;
 }
-
-/* Tooltip text */
 .tool-tip .tooltiptext {
   visibility: hidden;
   width: 120px;
@@ -171,13 +167,9 @@ export default {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
-
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
-
-/* Show the tooltip text when you mouse over the tooltip container */
 .tool-tip:hover .tooltiptext {
   visibility: visible;
 }
