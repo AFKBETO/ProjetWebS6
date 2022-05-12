@@ -35,4 +35,10 @@ router
     BC.parseBook,
     CC.changeCartItem
   )
+  .delete('/carts/books/:id_book',
+    VC.jwtVerifyUser,
+    CC.getPendingCart,
+    BC.parseBook,
+    CC.deleteCartItem
+  )
 module.exports = router

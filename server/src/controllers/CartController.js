@@ -104,5 +104,18 @@ module.exports = {
     } catch (err) {
       errorHandler(res, err, 'Cannot add item to cart')
     }
+  },
+  async deleteCartItem(req, res) {
+    try {
+      await CartItem.destroy({
+        where: {
+          id_cart: req.cart.id_cart,
+          id_book: req.id_book
+        }
+      })
+      res.status(204).send()
+    } catch (err) {
+      errorHandler(res, err, 'Cannot delete item from cart')
+    }
   }
 }
