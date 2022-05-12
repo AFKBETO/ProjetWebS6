@@ -1,11 +1,7 @@
 <template>
   <div class="container-md border border-dark cartitem my-1 p-0 d-flex align-items-center">
     <div class="container-fluid row d-flex align-items-center">
-      <div class="text-center vh-16 col-2">
-        <img
-          :src="url"
-          class="image-thumb"
-          :alt="name_book">
+      <div class="text-center vh-16 col-2 border image-thumb" :style="image">
       </div>
       <div class="col d-flex flex-column text-center text-truncate">
         <div>
@@ -83,13 +79,22 @@ export default {
         cartItem: null
       })
     }
+  },
+  computed: {
+    image () {
+      return {
+        backgroundImage: `url(${this.url})`
+      }
+    }
   }
 }
 </script>
 
 <style>
 .image-thumb {
-  width: 9vh;
+  width: 9vw;
+  height: 15vh;
+  background-size: cover;
 }
 .cartitem {
   height: 17vh

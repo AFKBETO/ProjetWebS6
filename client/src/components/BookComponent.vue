@@ -1,5 +1,5 @@
 <template>
-  <div class="book bookcomp card">
+  <div class="book card">
     <div class="card-header bg-dark text-dark">
       <div class="card-title m-0 p-0 d-flex justify-content-between align-content-center">
         <div class="h6 p-0 m-0 text-truncate text-light">{{name_book}}</div>
@@ -12,16 +12,17 @@
         </div>
       </div>
     </div>
-    <div class="card-body imageblock">
-      <img
-        :src="url"
-        class="card-img-top"
+    <div class="card-body">
+      <div
+        class="card-img-top imageblock"
+        :style="image"
         :alt="name_book">
+      </div>
     </div>
     <div class="footer p-2">
       <div class="card-text d-flex align-content-center justify-content-between">
         <div class="px-2">
-          <strong>Qty: </strong>
+          <strong class="qty">Qty: </strong>
           <small>{{remaining}}</small>
         </div>
         <div class="btn-group btn-group-sm">
@@ -88,6 +89,11 @@ export default {
     },
     isAdmin () {
       return isAdmin() && this.canDelete
+    },
+    image () {
+      return {
+        backgroundImage: `url("${this.url}")`
+      }
     }
   }
 }
@@ -95,9 +101,10 @@ export default {
 
 <style>
 .imageblock {
-  height:65%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 80%;
+  height: 32vh;
+  background-size: cover;
+  margin: auto;
 }
 
 .btn-more {
@@ -108,9 +115,10 @@ export default {
   object-fit: cover
 }
 
-@media screen and (min-width: 1024px) {
-  .bookcomp {
-    max-height: 250px;
+@media screen and (max-width: 600px) {
+  .qty {
+    visibility: hidden;
+    position: absolute;
   }
 }
 </style>
