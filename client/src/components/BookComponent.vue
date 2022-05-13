@@ -84,12 +84,6 @@ export default {
     borrowedQty: Number,
     quantity_cart: Number
   },
-  created () {
-    document.addEventListener('focusout', this.loseFocus)
-  },
-  beforeDestroy () {
-    document.removeEventListener('focusout', this.loseFocus)
-  },
   data () {
     return {
       showMenu: false,
@@ -98,6 +92,12 @@ export default {
   },
   components: {
     BookForm
+  },
+  created () {
+    document.addEventListener('focusout', this.loseFocus)
+  },
+  beforeDestroy () {
+    document.removeEventListener('focusout', this.loseFocus)
   },
   methods: {
     addToCart: async function () {

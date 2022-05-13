@@ -1,4 +1,5 @@
 import { Api, setBearer } from '@/services/Api'
+import { isAdmin } from './AuthService'
 
 export function fetchCarts () {
   setBearer()
@@ -31,6 +32,9 @@ export function deleteCart () {
 }
 
 export function changeStateCart (idCart, status) {
+  if (!isAdmin()) {
+    throw new Error('You do not have sufficient permission.')
+  }
   setBearer()
   Api().put(`carts/${idCart}`, status)
 }

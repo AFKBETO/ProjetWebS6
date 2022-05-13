@@ -86,7 +86,7 @@ export default {
     this.loaded = true
   },
   methods: {
-    cartChange: function (itemData) {
+    cartChange (itemData) {
       const { idBook, cartItem } = itemData
       if (cartItem) {
         this.cart[idBook].quantity_cart = cartItem.quantity_cart

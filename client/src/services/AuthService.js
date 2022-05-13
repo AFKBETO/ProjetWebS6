@@ -32,6 +32,7 @@ export function isAdmin () {
 export function getAuthToken () {
   return localStorage.getItem(AUTH_TOKEN_KEY)
 }
+
 export function clearAuthToken () {
   Api().defaults.headers.common['Authorization'] = ''
   localStorage.removeItem(AUTH_TOKEN_KEY)
@@ -48,12 +49,6 @@ export function isLoggedIn () {
     localStorage.removeItem(`userId`)
   }
   return !(!authToken) && !isTokenExpired(authToken)
-}
-
-export function getUserInfo () {
-  if (isLoggedIn()) {
-    return decode(getAuthToken())
-  }
 }
 
 function getTokenExpirationDate (encodedToken) {
