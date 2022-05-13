@@ -2,10 +2,6 @@
   <div class="books">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">Book catalogue</div>
-      <div class="tool-tip" v-show="isAdmin">
-        <button class="btn btn-close" @click.prevent="openDelete"></button>
-        <span class="tooltiptext">Delete books</span>
-      </div>
       <div class="p-1">
         <div class="input-group">
           <div class="p-0">
@@ -30,10 +26,10 @@
           :quantity_book="book.quantity_book"
           :borrowedQty="book.borrowedQty"
           :quantity_cart="book.quantity_cart"
-          :canDelete="canDelete"
           v-show="book.name_book.includes(searchBox)"
           @cart-change="cartChange"
-          @delete-book="deleteBook" />
+          @delete-book="deleteBook"
+          @edit-book="editBook" />
       </div>
     </div>
     <div class="container-sm p-5 my-5 justify-content-center" v-show="isAdmin">
@@ -43,7 +39,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
-          <BookForm @add-book="addBook" />
+          <BookForm class="border" @add-book="addBook" />
         </div>
       </div>
       <button
@@ -77,8 +73,7 @@ export default {
       books: {},
       cart: {},
       searchBox: '',
-      loaded: false,
-      canDelete: false
+      loaded: false
     }
   },
   watch: {
@@ -122,19 +117,22 @@ export default {
       }
       this.$forceUpdate()
     },
-    addBook: function (bookData) {
+    addBook (bookData) {
       this.books[bookData.id_book] = bookData
       this.books[bookData.id_book]['borrowedQty'] = 0
       this.books[bookData.id_book]['quantity_cart'] = 0
       this.$forceUpdate()
     },
-    deleteBook: async function (idBook) {
+    editBook (bookData) {
+      this.books[bookData.id_book].name_book = bookData.name_book
+      this.books[bookData.id_book].url = bookData.url
+      this.books[bookData.id_book].quantity_book = bookData.quantity_book
+      this.$forceUpdate()
+    },
+    deleteBook (idBook) {
       delete this.books[idBook]
       delete this.cart[idBook]
       this.$forceUpdate()
-    },
-    openDelete: function () {
-      this.canDelete = !this.canDelete
     }
   },
   computed: {

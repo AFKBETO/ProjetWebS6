@@ -6,9 +6,30 @@
         <div class="admin-only" v-show="isAdmin">
           <button
             type="button"
-            class="btn btn-close btn-close-white btn-more"
-            @click.prevent="deleteBook">
+            class="btn bg-dark text-light btn-more p-0"
+            @click.prevent="toggleMenu">
+            <i class="bi bi-three-dots" />
           </button>
+          <div
+            v-show="showMenu"
+            class="position-absolute bg-light edit-menu">
+            <div class="text-end mt-2 me-2">
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click.prevent="deleteBook">
+                Delete this Book
+              </button>
+            </div>
+            <BookForm
+              :key="refresh"
+              :id_book="id_book"
+              :name_book="name_book"
+              :url="url"
+              :quantity_book="quantity_book"
+              :editMode="true"
+              @edit-book="editBook" />
+          </div>
         </div>
       </div>
     </div>
@@ -29,7 +50,7 @@
           <button
             type="button"
             class="btn p-0 px-1 btn-info"
-            :disabled="((remaining - quantity_cart) < 1) || canDelete"
+            :disabled="(remaining - quantity_cart) < 1"
             @click.prevent="addToCart">
             <i class="bi bi-cart-plus" />
           </button>
@@ -37,7 +58,7 @@
           <button
             type="button"
             class="btn p-0 px-1 btn-secondary"
-            :disabled="(quantity_cart < 1) || canDelete"
+            :disabled="quantity_cart < 1"
             @click.prevent="subtractFromCart">
             <i class="bi bi-cart-dash" />
           </button>
@@ -51,6 +72,7 @@
 import { changeInCart } from '@/services/CartService.js'
 import { isAdmin } from '../services/AuthService'
 import { deleteBook } from '../services/BookService'
+import BookForm from './BookForm.vue'
 
 export default {
   name: 'BookComponent',
@@ -60,8 +82,16 @@ export default {
     url: String,
     quantity_book: Number,
     borrowedQty: Number,
-    quantity_cart: Number,
-    canDelete: {type: Boolean, default: false}
+    quantity_cart: Number
+  },
+  data () {
+    return {
+      showMenu: false,
+      refresh: 1
+    }
+  },
+  components: {
+    BookForm
   },
   methods: {
     addToCart: async function () {
@@ -72,6 +102,14 @@ export default {
       const itemData = await changeInCart(this.id_book, false)
       this.$emit('cart-change', itemData.data)
     },
+    editBook (bookData) {
+      try {
+        this.$emit('edit-book', bookData)
+        this.showMenu = false
+      } catch (err) {
+        alert(err.message)
+      }
+    },
     deleteBook: async function () {
       try {
         if (confirm('Do you want to delete this book? This action is irreversible.')) {
@@ -81,6 +119,10 @@ export default {
       } catch (err) {
         alert(err.message)
       }
+    },
+    toggleMenu () {
+      this.showMenu = !this.showMenu
+      this.refresh++
     }
   },
   computed: {
@@ -88,7 +130,7 @@ export default {
       return this.quantity_book - this.borrowedQty
     },
     isAdmin () {
-      return isAdmin() && this.canDelete
+      return isAdmin()
     },
     image () {
       return {
@@ -107,12 +149,14 @@ export default {
   margin: auto;
 }
 
-.btn-more {
-  border-radius: 50%;
-}
-
 .imageinbox {
   object-fit: cover
+}
+
+.edit-menu {
+  z-index: 10;
+  min-width: 25vw;
+  left: -20%;
 }
 
 @media screen and (max-width: 600px) {

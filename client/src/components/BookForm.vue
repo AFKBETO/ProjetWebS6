@@ -1,6 +1,6 @@
 <template>
-  <form @submit.prevent="addBook" class="d-flex align-items-center justify-content-center flex-column border pb-3" novalidate="true">
-    <div class="form-floating w-50 my-3">
+  <form @submit.prevent="addBook" class="d-flex align-items-center justify-content-center flex-column pb-3" novalidate="true">
+    <div class="form-floating w-100 px-2 my-3">
       <input
         type="text"
         class="form-control"
@@ -10,7 +10,7 @@
         required>
       <label for="book-name">Book's name</label>
     </div>
-    <div class="form-floating w-50 my-3">
+    <div class="form-floating w-100 px-2 my-3">
       <input
         type="text"
         class="form-control"
@@ -19,7 +19,7 @@
         v-model="bookData.url">
       <label for="url">Image URL</label>
     </div>
-    <div class="form-floating w-50 my-3">
+    <div class="form-floating w-100 px-2 my-3">
       <input
         type="number"
         class="form-control"
@@ -31,7 +31,7 @@
     </div>
     <button class="btn btn-dark active w-auto"
       :disabled="errBook" data-bs-dismiss="offcanvas"
-      type="submit">Add book</button>
+      type="submit">{{editMode ? 'Edit' : 'Add'}} book</button>
     <div class="text-danger w-60 text-center" v-if="errBook">
       <small>You must provide a book's name</small>
     </div>
@@ -39,9 +39,16 @@
 </template>
 
 <script>
-import { createBook } from '@/services/BookService.js'
+import { createBook, editBook } from '@/services/BookService.js'
 
 export default {
+  props: {
+    id_book: Number,
+    name_book: {type: String, default: ''},
+    url: {type: String, default: ''},
+    quantity_book: {type: Number, default: 0},
+    editMode: {type: Boolean, default: false}
+  },
   data () {
     return {
       bookData: {
@@ -50,6 +57,15 @@ export default {
         quantity_book: 0
       },
       errBook: false
+    }
+  },
+  mounted () {
+    if (this.editMode) {
+      this.bookData = {
+        name_book: this.name_book,
+        url: this.url,
+        quantity_book: this.quantity_book
+      }
     }
   },
   watch: {
@@ -62,16 +78,34 @@ export default {
   methods: {
     addBook: async function () {
       try {
-        this.errBook = false
-        const response = await createBook(this.bookData)
-        this.bookData = {
-          name_book: '',
-          url: '',
-          quantity_book: 0
+        if (
+          this.bookData.name_book !== this.name_book ||
+          this.bookData.url !== this.url ||
+          this.bookData.quantity_book !== this.quantity_book
+        ) {
+          this.errBook = false
+          if (!this.editMode) {
+            const response = await createBook(this.bookData)
+            this.$emit('add-book', response.data)
+          }
+          if (this.editMode) {
+            await editBook(this.id_book, this.bookData)
+            const emitData = {
+              id_book: this.id_book,
+              name_book: this.bookData.name_book,
+              url: this.bookData.url,
+              quantity_book: this.bookData.quantity_book
+            }
+            this.$emit('edit-book', emitData)
+          }
+          this.bookData = {
+            name_book: '',
+            url: '',
+            quantity_book: 0
+          }
         }
-        this.$emit('add-book', response.data)
       } catch (err) {
-        alert('There is an error when adding book')
+        alert(`There is an error when ${this.editMode ? 'editing' : 'adding'} book`)
       }
     }
   }
