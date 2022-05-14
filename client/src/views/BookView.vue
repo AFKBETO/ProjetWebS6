@@ -1,11 +1,14 @@
 <template>
   <div class="books">
     <div class="d-flex justify-content-around">
-      <div class="h1 text-left me-auto">Book catalogue</div>
+      <div class="h1 text-left me-auto">
+        Book catalogue
+        </div>
       <div class="p-1">
         <div class="input-group">
           <div class="p-0">
-            <input type="search" class="form-control" placeholder="Search" v-model="searchBox" />
+            <input type="search" class="form-control"
+            placeholder="Search" v-model="searchBox" />
           </div>
           <span class="btn btn-secondary input-group-text">
             <i class="bi bi-search" />
@@ -136,9 +139,6 @@ export default {
     }
   },
   computed: {
-    searchFilter () {
-      return this.searchBox
-    },
     isAdmin () {
       return isAdmin()
     }

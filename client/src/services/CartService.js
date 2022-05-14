@@ -31,10 +31,10 @@ export function deleteCart () {
   Api().delete(`carts`)
 }
 
-export function changeStateCart (idCart, status) {
+export function returnBooks (idCart) {
   if (!isAdmin()) {
     throw new Error('You do not have sufficient permission.')
   }
   setBearer()
-  Api().put(`carts/${idCart}`, status)
+  Api().put(`carts/${idCart}`)
 }

@@ -28,6 +28,7 @@ router
 
 router
   .get('/carts', VC.jwtVerifyUser, CC.read)
+  .get('/carts/all', VC.jwtVerifyUser, VC.adminChecker, CC.readAll)
   .put('/carts', VC.jwtVerifyUser, CC.getPendingCart, CC.create)
   .post('/carts/books/:id_book',
     VC.jwtVerifyUser,

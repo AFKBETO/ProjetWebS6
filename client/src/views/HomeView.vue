@@ -19,6 +19,11 @@
                     class="nav-link border text-light p-2"
                     :class="activeClass('cart')" to="/cart">Cart</router-link>
                 </li>
+                <li class="nav-item">
+                  <router-link
+                    class="nav-link border text-light p-2"
+                    :class="activeClass('admin')" to="/admin">Admin</router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -43,6 +48,11 @@
               <router-link
                 class="nav-link border text-light p-2"
                 :class="activeClass('cart')" to="/cart">Cart</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link border text-light p-2"
+                :class="activeClass('admin')" to="/admin">Admin</router-link>
             </li>
           </ul>
         </div>

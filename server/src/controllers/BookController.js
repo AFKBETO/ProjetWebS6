@@ -54,7 +54,8 @@ module.exports = {
             model: CartItem,
             where: {
               id_book: book.id_book
-            }
+            },
+            attributes: {exclude: ['id_user']}
           },
           where: {
             'status': 'borrowed'

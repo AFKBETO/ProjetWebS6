@@ -11,6 +11,8 @@ module.exports = {
       }
 
       req.id_cart = idCart
+
+      req.cart = await Cart.findByPk(idCart)
       
       next()
     } catch (err) {
@@ -44,7 +46,6 @@ module.exports = {
   },
   async read (req, res) {
     try {
-      console.log(req.id_user)
       const carts = await Cart.findAll({
         include: {
           model: CartItem
@@ -52,6 +53,26 @@ module.exports = {
         where: {
           id_user: req.id_user
         }
+      })
+      res.status(200).send(carts)
+    } catch (err) {
+      errorHandler(res, err, 'Cannot fetch carts')
+    }
+  },
+  async readAll (req, res) {
+    try {
+      const carts = await Cart.findAll({
+        include: [{
+          model: CartItem,
+          attributes: ['quantity_cart'],
+          include: {
+            model: Book,
+            attributes: ['name_book', 'url', 'id_book',]
+          }
+        },{
+          model: User,
+          attributes: ['username']
+        }]
       })
       res.status(200).send(carts)
     } catch (err) {
@@ -122,7 +143,8 @@ module.exports = {
   async updateCartStatus (req, res) {
     try {
       await Cart.update({
-        status: req.body.status
+        status: 'returned',
+        createdAt: req.cart.updatedAt
       }, {
         where: {
           id_cart: req.id_cart

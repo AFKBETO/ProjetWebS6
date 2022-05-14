@@ -5,7 +5,8 @@ import LoginService from '../components/LoginService.vue'
 import RegisterService from '../components/RegisterService.vue'
 import BookView from '../views/BookView.vue'
 import CartView from '../views/CartView.vue'
-import { isLoggedIn } from '../services/AuthService.js'
+import AdminView from '../views/AdminView.vue'
+import { isLoggedIn, isAdmin } from '../services/AuthService.js'
 
 Vue.use(Router)
 
@@ -27,6 +28,14 @@ const router = new Router({
           path: '/cart',
           name: 'cart',
           component: CartView
+        },
+        {
+          path: '/admin',
+          name: 'admin',
+          component: AdminView,
+          meta: {
+            adminOnly: true
+          }
         }
       ]
     },
@@ -50,7 +59,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if ((to.name === 'login' || to.name === 'register') && isLoggedIn()) {
+  if (((to.name === 'login' || to.name === 'register') && isLoggedIn()) || (to.name === 'admin' && !isAdmin())) {
     next({
       path: '/'
     })
