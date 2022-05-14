@@ -12,14 +12,14 @@
                 <li class="nav-item">
                   <router-link
                     class="nav-link border text-light p-2"
-                    :class="activeClass('books')" to="/">Book catalogue</router-link>
+                    :class="activeClass('books')" to="/">Book catalog</router-link>
                 </li>
                 <li class="nav-item">
                   <router-link
                     class="nav-link border text-light p-2"
                     :class="activeClass('cart')" to="/cart">Cart</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="isAdmin">
                   <router-link
                     class="nav-link border text-light p-2"
                     :class="activeClass('admin')" to="/admin">Admin</router-link>
@@ -42,14 +42,14 @@
             <li class="nav-item">
               <router-link
                 class="nav-link border text-light p-2"
-                :class="activeClass('books')" to="/">Book catalogue</router-link>
+                :class="activeClass('books')" to="/">Book catalog</router-link>
             </li>
             <li class="nav-item">
               <router-link
                 class="nav-link border text-light p-2"
                 :class="activeClass('cart')" to="/cart">Cart</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isAdmin">
               <router-link
                 class="nav-link border text-light p-2"
                 :class="activeClass('admin')" to="/admin">Admin</router-link>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { isAdmin } from '../services/AuthService'
 export default {
   name: 'HomeView',
   methods: {
@@ -74,6 +75,11 @@ export default {
           return 'active text-dark bg-light'
         }
       }
+    }
+  },
+  computed: {
+    isAdmin () {
+      return isAdmin()
     }
   }
 }

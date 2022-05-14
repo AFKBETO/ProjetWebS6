@@ -5,6 +5,10 @@
         All carts
       </div>
       <div class="p-1">
+        <div class="form-check form-switch">
+          <label class="form-check-label" for="borrowedCheck">Show unreturned carts</label>
+          <input class="form-check-input" type="checkbox" id="borrowedCheck" v-model="searchBorrowed">
+        </div>
         <div class="input-group">
           <div class="p-0">
             <input type="search" class="form-control"
@@ -27,7 +31,7 @@
         :createdAt="cart.createdAt"
         :updatedAt="cart.updatedAt"
         @book-returned="returnBook"
-        v-show="cart.username.includes(searchUser)"
+        v-show="cart.username.includes(searchUser) && (!searchBorrowed || (searchBorrowed && cart.status === 'borrowed'))"
         />
     </div>
   </div>
@@ -42,7 +46,8 @@ export default {
     return {
       carts: {},
       loaded: false,
-      searchUser: ''
+      searchUser: '',
+      searchBorrowed: false
     }
   },
   components: {
@@ -82,12 +87,8 @@ export default {
   },
   methods: {
     returnBook (idCart) {
-      for (const cart of this.carts) {
-        if (cart.id_cart === idCart) {
-          cart.status = 'returned'
-          break
-        }
-      }
+      this.carts[idCart].status = 'returned'
+      this.$forceUpdate()
     }
   }
 }

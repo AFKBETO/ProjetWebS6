@@ -1,8 +1,9 @@
 <template>
   <div class="cart p-0 m-0">
-    <div class="container-md border border-dark my-1 p-0 d-flex align-items-center">
+    <div class="container-md border rounded border-2 border-dark my-1 p-0 d-flex align-items-center"
+      :class="colorCart">
       <div class="container-fluid row d-flex align-items-center pe-0">
-        <div class="col d-flex flex-column text-center text-truncate">
+        <div class="col d-flex flex-column text-center text-truncate ps-0">
           <div v-show="status === 'borrowed' || status === 'returned'">
             <strong>Borrowed: </strong> {{getBorrowedDate}}
           </div>
@@ -18,7 +19,7 @@
             {{username}}
           </div>
         </div>
-        <div class="col-2 d-flex flex-column text-center text-truncate">
+        <div class="col-2 d-flex flex-column text-center text-truncate p-0">
           <div>
             <strong>Status</strong>
           </div>
@@ -26,7 +27,7 @@
             {{status}}
           </div>
         </div>
-        <div class="col text-center text-truncate">
+        <div class="col text-center text-truncate p-0">
           <button
             type="button"
             class="btn bg-dark text-light btn-more p-0 px-1"
@@ -118,13 +119,21 @@ export default {
     colorStatus () {
       switch (this.status) {
         case 'borrowed':
-          return 'text-danger'
+          return 'text-white'
         case 'pending':
           return 'text-primary'
         case 'returned':
           return 'text-success'
         default:
           return 'text-dark'
+      }
+    },
+    colorCart () {
+      switch (this.status) {
+        case 'borrowed':
+          return 'bg-danger'
+        default:
+          return 'bg-light'
       }
     },
     getBorrowedDate () {

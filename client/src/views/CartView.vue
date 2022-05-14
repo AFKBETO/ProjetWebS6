@@ -7,6 +7,7 @@
           <button
             type="button"
             class="btn btn-info px-5"
+            :disabled="!cartValid()"
             @click.prevent="validateCart">
             <i class="bi bi-cart-check-fill"></i>
           </button>
@@ -24,7 +25,7 @@
       </div>
     </div>
     <div class="h3 fst-italic mt-5" v-show="!Object.keys(cart).length">
-      Wow, so empty! You can try borrowing some books by checking out our <a href="/" >catalogue</a>.
+      Wow, so empty! You can try borrowing some books by checking out our <a href="#" @click.prevent="openHome" >catalog</a>.
     </div>
     <CartItem
       v-for="(item, index) of cart"
@@ -111,6 +112,17 @@ export default {
       } catch (err) {
         alert(err.message)
       }
+    },
+    openHome () {
+      this.$router.push('/')
+    },
+    cartValid () {
+      for (const idBook in this.cart) {
+        if (this.cart[idBook].quantity_available < this.cart[idBook].quantity_cart) {
+          return false
+        }
+      }
+      return true
     }
   }
 }

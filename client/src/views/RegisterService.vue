@@ -106,7 +106,7 @@ export default {
         this.repeatPassword = ''
         this.repeatPasswordError = true
         console.log(response.data)
-        this.$router.push('/')
+        this.$router.push('/login')
       } catch (err) {
         this.errMessage = err.response.data.error
         this.registerDetails.password = ''

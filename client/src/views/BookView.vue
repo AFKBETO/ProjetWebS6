@@ -2,7 +2,7 @@
   <div class="books">
     <div class="d-flex justify-content-around">
       <div class="h1 text-left me-auto">
-        Book catalogue
+        Book catalog
         </div>
       <div class="p-1">
         <div class="input-group">
