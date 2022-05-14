@@ -33,9 +33,6 @@ const router = new Router({
           path: '/admin',
           name: 'admin',
           component: AdminView,
-          meta: {
-            adminOnly: true
-          }
         }
       ]
     },
