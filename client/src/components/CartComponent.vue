@@ -2,7 +2,7 @@
   <div class="cart p-0 m-0">
     <div class="container-md border rounded border-2 border-dark my-1 p-0 d-flex align-items-center"
       :class="colorCart">
-      <div class="container-fluid row d-flex align-items-center pe-0">
+      <div class="container-fluid row d-flex align-items-center gx-0 pe-0">
         <div class="col d-flex flex-column text-center text-truncate ps-0">
           <div v-show="status === 'borrowed' || status === 'returned'">
             <strong>Borrowed: </strong> {{getBorrowedDate}}
@@ -59,7 +59,7 @@
                   @click.prevent="validateChange">
                   <i class="bi bi-check-square"></i>
                 </button>
-                <span class="tooltiptext">Check to confirm book return</span>
+                <span class="tooltiptext">Click to confirm book return</span>
               </div>
             </div>
           </div>
@@ -185,8 +185,8 @@ export default {
   border-radius: 6px;
   position: absolute;
   z-index: 1;
-  left: 0px;
-  top: 100%;
+  left: -120px;
+  top: -10px;
 }
 .tool-tip:hover .tooltiptext {
   visibility: visible;

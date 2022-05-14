@@ -31,7 +31,7 @@
         :createdAt="cart.createdAt"
         :updatedAt="cart.updatedAt"
         @book-returned="returnBook"
-        v-show="cart.username.includes(searchUser) && (!searchBorrowed || (searchBorrowed && cart.status === 'borrowed'))"
+        v-show="cart.username.toLowerCase().includes(searchUser.toLowerCase()) && (!searchBorrowed || (searchBorrowed && cart.status === 'borrowed'))"
         />
     </div>
   </div>

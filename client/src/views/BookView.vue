@@ -19,7 +19,7 @@
     <div class="container-sm">
       <div class="row row-cols-4 g-2">
         <BookComponent
-          class="col border p-0"
+          class="col border border-2 p-0"
           v-for="(book, index) in books"
           :id="book.id_book"
           :key="index"
@@ -29,10 +29,12 @@
           :quantity_book="book.quantity_book"
           :borrowedQty="book.borrowedQty"
           :quantity_cart="book.quantity_cart"
-          v-show="book.name_book.includes(searchBox)"
+          :activeMenu="activeMenu"
+          v-show="book.name_book.toLowerCase().includes(searchBox.toLowerCase())"
           @cart-change="cartChange"
           @delete-book="deleteBook"
-          @edit-book="editBook" />
+          @edit-book="editBook"
+          @close-others="closeOthers" />
       </div>
     </div>
     <div class="container-sm p-5 my-5 justify-content-center" v-show="isAdmin">
@@ -76,7 +78,8 @@ export default {
       books: {},
       cart: {},
       searchBox: '',
-      loaded: false
+      loaded: false,
+      activeMenu: 0
     }
   },
   watch: {
@@ -136,6 +139,9 @@ export default {
       delete this.books[idBook]
       delete this.cart[idBook]
       this.$forceUpdate()
+    },
+    closeOthers (idBook) {
+      this.activeMenu = idBook
     }
   },
   computed: {
@@ -152,23 +158,5 @@ export default {
   bottom: 5%;
   right: 5%;
   border-radius: 50%;
-}
-.tool-tip {
-  position: relative;
-  display: inline-block;
-}
-.tool-tip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: lightgray;
-  color: black;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1;
-}
-.tool-tip:hover .tooltiptext {
-  visibility: visible;
 }
 </style>

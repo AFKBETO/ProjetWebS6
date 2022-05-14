@@ -3,16 +3,24 @@
     <div class="card-header bg-dark text-dark">
       <div class="card-title m-0 p-0 d-flex justify-content-between align-content-center">
         <div class="h6 p-0 m-0 text-truncate text-light">{{name_book}}</div>
-        <div class="admin-only" v-show="isAdmin">
+        <div class="admin-only" v-if="isAdmin">
           <button
+            v-show="!showMenu"
             type="button"
-            class="btn bg-dark text-light btn-more p-0"
+            class="btn bg-dark text-light p-2"
             @click.prevent="toggleMenu">
             <i class="bi bi-three-dots" />
           </button>
+          <button
+            v-show="showMenu"
+            type="button"
+            class="btn btn-close btn-close-white pt-4 pb-0 pe-3"
+            @click.prevent="toggleMenu">
+          </button>
           <div
             v-show="showMenu"
-            class="position-absolute bg-light edit-menu">
+            class="position-absolute bg-light edit-menu border border-secondary border-3 rounded"
+            tabindex="-1">
             <div class="text-end mt-2 me-2">
               <button
                 type="button"
@@ -28,7 +36,8 @@
               :url="url"
               :quantity_book="quantity_book"
               :editMode="true"
-              @edit-book="editBook" />
+              tabindex="-1"
+              @edit-book="editBook"/>
           </div>
         </div>
       </div>
@@ -82,7 +91,8 @@ export default {
     url: String,
     quantity_book: Number,
     borrowedQty: Number,
-    quantity_cart: Number
+    quantity_cart: Number,
+    activeMenu: Number
   },
   data () {
     return {
@@ -90,14 +100,15 @@ export default {
       refresh: 1
     }
   },
+  watch: {
+    activeMenu (newValue) {
+      if (newValue !== this.id_book) {
+        this.showMenu = false
+      }
+    }
+  },
   components: {
     BookForm
-  },
-  created () {
-    document.addEventListener('focusout', this.loseFocus)
-  },
-  beforeDestroy () {
-    document.removeEventListener('focusout', this.loseFocus)
   },
   methods: {
     addToCart: async function () {
@@ -128,18 +139,16 @@ export default {
     },
     toggleMenu () {
       this.showMenu = !this.showMenu
+      this.$emit('close-others', this.id_book)
       this.refresh++
-    },
-    loseFocus (event) {
-      this.showMenu = false
     }
   },
   computed: {
-    remaining () {
-      return this.quantity_book - this.borrowedQty
-    },
     isAdmin () {
       return isAdmin()
+    },
+    remaining () {
+      return this.quantity_book - this.borrowedQty
     },
     image () {
       return {
@@ -154,6 +163,7 @@ export default {
 .imageblock {
   width: 80%;
   height: 32vh;
+  max-height: 200px;
   background-size: cover;
   margin: auto;
 }

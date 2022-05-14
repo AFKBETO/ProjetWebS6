@@ -11,7 +11,8 @@
             @click.prevent="validateCart">
             <i class="bi bi-cart-check-fill"></i>
           </button>
-          <span class="tooltiptext">Validate your cart</span>
+          <span class="tooltiptext" v-show="cartValid()">Validate your cart</span>
+          <span class="tooltiptext" v-show="!cartValid()">Some books are not available</span>
         </div>
         <div class="tool-tip">
           <button
