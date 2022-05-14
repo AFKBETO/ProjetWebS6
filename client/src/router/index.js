@@ -32,7 +32,7 @@ const router = new Router({
         {
           path: '/admin',
           name: 'admin',
-          component: AdminView,
+          component: AdminView
         }
       ]
     },

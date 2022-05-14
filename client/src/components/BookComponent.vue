@@ -163,7 +163,7 @@ export default {
 .imageblock {
   width: 80%;
   height: 32vh;
-  max-height: 200px;
+  max-height: 150px;
   background-size: cover;
   margin: auto;
 }
