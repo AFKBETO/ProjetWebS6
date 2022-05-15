@@ -1,21 +1,22 @@
-import { Api, AUTH_TOKEN_KEY } from '@/services/Api'
+import { Api, getCookie } from '@/services/Api'
 import decode from 'jwt-decode'
 
 export function register (credentials) {
   return Api().post('register', credentials)
 }
 
-export function login (credentials) {
-  return Api().post('login', credentials)
+export async function login (credentials) {
+  const response = await Api().post('login', credentials)
+  document.cookie = `token=${response.data.token}; max-age=3600`
 }
 
 export function logout () {
   clearAuthToken()
 }
 
-export function setAuthToken (token) {
+export function setAuthToken () {
+  const token = getCookie('token')
   Api().defaults.headers.common['Authorization'] = `Bearer ${token}`
-  localStorage.setItem(AUTH_TOKEN_KEY, token)
 }
 
 export function isAdmin () {
@@ -30,23 +31,20 @@ export function isAdmin () {
 }
 
 export function getAuthToken () {
-  return localStorage.getItem(AUTH_TOKEN_KEY)
+  return getCookie('token')
 }
 
 export function clearAuthToken () {
-  Api().defaults.headers.common['Authorization'] = ''
-  localStorage.removeItem(AUTH_TOKEN_KEY)
+  document.cookie = 'token='
 }
 
 export function isLoggedIn () {
   const authToken = getAuthToken()
   if (authToken) {
     const data = decode(authToken)
-    localStorage.setItem(`displayName`, data.username)
-    localStorage.setItem(`userId`, data.id_user)
+    document.cookie = `displayName=${data.username}; max-age=3600`
   } else {
-    localStorage.removeItem(`displayName`)
-    localStorage.removeItem(`userId`)
+    document.cookie = `displayName=`
   }
   return !(!authToken) && !isTokenExpired(authToken)
 }

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { login, setAuthToken } from '@/services/AuthService.js'
+import { login } from '@/services/AuthService.js'
 import { emailValidator } from '@/services/FormValidator.js'
 
 export default {
@@ -59,14 +59,12 @@ export default {
     async login () {
       try {
         this.errEmail = false
-        const response = await login({
+        await login({
           email: this.loginDetails.email,
           password: this.loginDetails.password
         })
         this.loginDetails.email = ''
         this.loginDetails.password = ''
-        setAuthToken(response.data.token)
-        console.log(response.data)
         this.$router.push('/')
       } catch (err) {
         this.errMessage = err.response.data.error

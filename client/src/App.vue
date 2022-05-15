@@ -29,6 +29,7 @@
 
 <script>
 import { logout, isLoggedIn } from './services/AuthService.js'
+import { getCookie } from './services/Api.js'
 
 export default {
   name: 'App',
@@ -48,7 +49,7 @@ export default {
       return isLoggedIn()
     },
     getName () {
-      return localStorage.displayName
+      return getCookie('displayName')
     }
   }
 }

@@ -6,8 +6,13 @@ export function Api () {
   })
 }
 
-export const AUTH_TOKEN_KEY = 'authToken'
-
 export function setBearer () {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage[AUTH_TOKEN_KEY]}`
+  axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('token')}`
+}
+
+export function getCookie (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+  return ''
 }
