@@ -22,11 +22,11 @@ Afterward, set up a schema in MySQL, then modifying the database configuration i
 Create the tables by using `npn run start`. Once the tables have been created, exit npm.<br>
 
 Run the following scripts in this order to populate some test entries in the database:
-<code>
-    npm run devinituser
-    npm run devinitbook
-    npm run devinitcart
-</code>
+```
+npm run devinituser
+npm run devinitbook
+npm run devinitcart
+```
 
 Afterward, keep the database running by using `npn run start` again.<br>
 
