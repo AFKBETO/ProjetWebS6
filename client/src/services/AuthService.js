@@ -42,7 +42,7 @@ export function isLoggedIn () {
   const authToken = getAuthToken()
   if (authToken) {
     const data = decode(authToken)
-    document.cookie = `displayName=${data.username}; max-age=3600`
+    document.cookie = `displayName=${data.username}`
   } else {
     document.cookie = `displayName=`
   }
