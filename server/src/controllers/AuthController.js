@@ -45,16 +45,22 @@ module.exports = {
       }
       const userdata = {
         id_user: user.id_user,
-        username: user.username,
-        email: user.email,
         profile: user.profile
       }
-      res.status(200).send({
-        token: jwtSignUser(userdata)
+      const token = jwtSignUser(userdata)
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production'
+      }).status(200).send({
+        username: user.username,
+        profile: user.profile
       })
     }
     catch (err) {
       errorHandler(res, err, 'Invalid login information')
     }
+  },
+  async logout (req, res) {
+    res.clearCookie('token').status(200).send()
   }
 }

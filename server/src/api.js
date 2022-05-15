@@ -9,6 +9,7 @@ const CC = require('./controllers/CartController')
 router
   .post('/register', AP.register, AC.register)
   .post('/login', AC.login)
+  .post('/logout', AC.logout)
 
 router
   .get('/books', VC.jwtVerifyUser, BC.read)

@@ -2,12 +2,14 @@ import axios from 'axios'
 
 export function Api () {
   return axios.create({
-    baseURL: `http://localhost:3001/api/`
+    baseURL: `http://localhost:3001/api/`,
+    withCredentials: true,
+    headers: {
+      'Access-Control-Allow-Origin': 'http://localhost:3001',
+      'Access-Control-Allow-Credentials': true,
+      'Content-Type': 'application/json'
+    }
   })
-}
-
-export function setBearer () {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('token')}`
 }
 
 export function getCookie (name) {

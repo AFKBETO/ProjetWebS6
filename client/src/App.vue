@@ -41,8 +41,8 @@ export default {
         }
       }
     },
-    logout () {
-      logout()
+    logout: async function () {
+      await logout()
       this.$router.push('/login')
     },
     isLoggedIn () {
