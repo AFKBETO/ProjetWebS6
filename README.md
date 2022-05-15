@@ -23,9 +23,9 @@ Create the tables by using `npn run start`. Once the tables have been created, e
 
 Run the following scripts in this order to populate some test entries in the database:
 <code>
-npm run devinituser
-npm run devinitbook
-npm run devinitcart
+    npm run devinituser
+    npm run devinitbook
+    npm run devinitcart
 </code>
 
 Afterward, keep the database running by using `npn run start` again.<br>
